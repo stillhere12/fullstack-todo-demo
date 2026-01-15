@@ -9,7 +9,11 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  trustedOrigins: ['http://localhost:3001'],
+  trustedOrigins: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    process.env.BETTER_AUTH_URL || '',
+  ].filter(Boolean),
 });
 
 // Export the Session type inferred from your auth config

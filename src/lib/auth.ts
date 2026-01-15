@@ -12,6 +12,7 @@ export const auth = betterAuth({
   trustedOrigins: [
     'http://localhost:3000',
     'http://localhost:3001',
+    'https://fullstack-todo-demo-app.vercel.app',
     process.env.BETTER_AUTH_URL || '',
   ].filter(Boolean),
 });

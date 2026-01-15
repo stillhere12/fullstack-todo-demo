@@ -29,7 +29,7 @@ export default function SignInPage() {
 
     if (res.error) {
       setError(res.error.message || 'Something went wrong.');
-      router.push('/sign-in');
+      router.push('/sign-up');
     } else {
       router.push('/dashboard');
     }

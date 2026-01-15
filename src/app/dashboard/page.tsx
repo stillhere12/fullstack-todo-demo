@@ -31,7 +31,7 @@ export default async function NotesPage() {
                 key={note.id}
                 className="group relative p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
               >
-                <div className="flex flex-col justify-center items-center gap-2 md:justify-between md:items-start mb-2">
+                <div className="flex flex-col justify-center items-center gap-2 md:flex-row mb-2">
                   <h3 className="text-lg font-bold text-slate-900">{note.title}</h3>
                   <DeleteNoteButton noteId={note.id} />
                   <UpdateNoteButton noteId={note.id} />

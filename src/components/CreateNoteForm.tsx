@@ -18,7 +18,6 @@ export function CreateNoteForm() {
       setError(result.error);
     }
   }
-
   return (
     <form action={handleSubmit} className="space-y-5">
       <div className="flex flex-col space-y-2">

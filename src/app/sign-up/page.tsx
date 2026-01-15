@@ -32,7 +32,7 @@ export default function SignUpPage() {
       email: data.email,
       password: data.password,
     });
-    console.log(res);
+    // console.log(res);
 
     if (res.error) {
       setError(res.error.message || 'An error occurred');

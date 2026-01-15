@@ -85,4 +85,5 @@ model Note {
   updatedAt DateTime @updatedAt
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
+  @@unique([title, authorId])
 }

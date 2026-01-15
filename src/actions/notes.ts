@@ -56,7 +56,7 @@ export async function createNote(formdata: FormData) {
       authorId: session.user.id,
     },
   });
-  revalidatePath('/dashboard');
+  revalidatePath('/notes');
   // refresh the path after creating a note
   // what data type is note ? object
   return note;
@@ -72,7 +72,7 @@ export async function deleteNote(noteId: string) {
       authorId: session.user.id,
     },
   });
-  revalidatePath('/dashboard');
+  revalidatePath('/notes');
 }
 export async function updateNote(noteId: string, title: string, content: string) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -89,5 +89,5 @@ export async function updateNote(noteId: string, title: string, content: string)
       content,
     },
   });
-  revalidatePath('/dashboard');
+  revalidatePath('/notes');
 }

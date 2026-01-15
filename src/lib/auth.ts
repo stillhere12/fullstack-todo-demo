@@ -3,6 +3,7 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 
 export const auth = betterAuth({
+  secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL || 'https://fullstack-todo-demo-mu.vercel.app',
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
@@ -18,7 +19,4 @@ export const auth = betterAuth({
   ].filter(Boolean),
 });
 
-// Export the Session type inferred from your auth config
-// this is useful for typing session objects throughout your app
-// e.g., in API route handlers or server-side functions request
 export type Session = typeof auth.$Infer.Session;

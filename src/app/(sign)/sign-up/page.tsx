@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { authClient } from '../../lib/auth-client';
+import { authClient } from '../../../lib/auth-client';
 
 const signUpSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),

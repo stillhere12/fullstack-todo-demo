@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { authClient } from '../../lib/auth-client';
+import { authClient } from '../../../lib/auth-client';
 
 const signInSchema = z.object({
   email: z.email('Invalid email address'),
@@ -36,8 +36,8 @@ export default function SignInPage() {
   }
 
   return (
-    <main className="max-w-md h-screen flex items-center justify-center flex-col mx-auto p-6 space-y-4 text-foreground">
-      <h1 className="text-2xl font-bold">Sign In</h1>
+    <main className="bg-white max-w-md h-screen flex items-center justify-center flex-col mx-auto p-6 space-y-4 text-foreground">
+      <h1 className="text-2xl font-bold border-2 border-white">Sign In</h1>
 
       {error && <p className="text-destructive">{error}</p>}
 

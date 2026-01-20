@@ -1,10 +1,11 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { authClient } from '../../../lib/auth-client';
+import { authClient } from '@/lib/auth-client';
 
 const signUpSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
@@ -28,12 +29,23 @@ export default function SignUpPage() {
       email: data.email,
       password: data.password,
     });
-    console.log(res);
 
     if (res.error) {
-      setError(res.error.message || 'An error occurred');
+      if (res.error.message?.toLowerCase().includes('exist')) {
+        setError('User with this email already exists.');
+      } else {
+        setError(res.error.message || 'An error occurred');
+      }
     } else {
-      router.push('/notes');
+      const otpResponse = await authClient.emailOtp.sendVerificationOtp({
+        email: data.email,
+        type: 'email-verification',
+      });
+      if (otpResponse.error) {
+        setError(otpResponse.error.message || 'An error occurred');
+      } else {
+        router.push(`/verify?email=${data.email}&type=email-verification`);
+      }
     }
   }
 
@@ -42,6 +54,13 @@ export default function SignUpPage() {
       <div className="rounded-lg p-6 shadow-lg flex flex-col gap-4 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center">Sign Up</h1>
         {error && <p className="text-destructive text-sm text-center">{error}</p>}
+        {error?.toLowerCase().includes('exist') && (
+          <p className="text-sm text-center">
+            <Link href="/sign-in" className="underline hover:opacity-80">
+              Sign in instead
+            </Link>
+          </p>
+        )}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <input
             {...register('name')}

@@ -8,7 +8,6 @@ import { authClient } from '../../../lib/auth-client';
 
 const signInSchema = z.object({
   email: z.email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters long'),
 });
 
 type signInSchemaType = z.infer<typeof signInSchema>;
@@ -22,16 +21,15 @@ export default function SignInPage() {
 
   async function onSubmit(data: signInSchemaType) {
     setError(null);
-    const res = await authClient.signIn.email({
-      email: data.email,
-      password: data.password,
-    });
 
-    if (res.error) {
-      setError(res.error.message || 'Something went wrong.');
-      router.push('/sign-up');
+    const otpResponse = await authClient.emailOtp.sendVerificationOtp({
+      email: data.email,
+      type: 'sign-in',
+    });
+    if (otpResponse.error) {
+      setError(otpResponse.error.message || 'Something went wrong.');
     } else {
-      router.push('/notes');
+      router.push(`/verify?email=${data.email}&type=sign-in`);
     }
   }
 
@@ -49,18 +47,11 @@ export default function SignInPage() {
           required
           className="w-full rounded-md bg-secondary border border-border px-3 py-2"
         />
-        <input
-          {...register('password')}
-          type="password"
-          placeholder="Password"
-          required
-          className="w-full rounded-md bg-secondary border border-border px-3 py-2"
-        />
         <button
           type="submit"
           className="w-full bg-primary text-primary-foreground font-medium rounded-md px-4 py-2 hover:opacity-90 hover:cursor-pointer"
         >
-          Sign In
+          Sign In with Email
         </button>
       </form>
     </main>

@@ -1,8 +1,6 @@
-import { sendEmail } from '@/lib/email';
 import prisma from '@/lib/prisma';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { emailOTP } from 'better-auth/plugins';
 
 export const auth = betterAuth({
   debug: true,
@@ -17,18 +15,17 @@ export const auth = betterAuth({
   trustedOrigins: [
     'http://localhost:3000',
     'http://localhost:3001',
-    'https://fullstack-todo-demo-mu.vercel.app',
+    process.env.NEXT_PUBLIC_URL!,
     process.env.BETTER_AUTH_URL || '',
   ].filter(Boolean),
-  plugins: [
-    emailOTP({
-      otpLength: 8,
-      expiresIn: 120, // it is in seconds.
-      async sendVerificationOTP({ email, otp, type }) {
-        await sendEmail(email, otp, type);
-      },
-    }),
-  ],
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      scope: ['email', 'profile'],
+      prompt: 'select_account',
+    },
+  },
 });
 
 export type Session = typeof auth.$Infer.Session;
